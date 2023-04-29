@@ -9,18 +9,8 @@ public class TextToMusicNotes : MonoBehaviour
     private int characteristic;
     private int musicGenre;
     public InstrumentData currentInstrumentData;
-    public Instrument currentInstrument;
-    public MusicManager musicManager;
     public InstrumentManager instrumentManager;
-
     private Dictionary<char, int> noteMappings;
-
-    [System.Serializable]
-    public class MusicFragment
-    {
-        public AudioClip MaleClip;
-        public AudioClip FemaleClip;
-    }
     private void Awake()
     {
         noteMappings = new Dictionary<char, int>
@@ -30,7 +20,6 @@ public class TextToMusicNotes : MonoBehaviour
         };
 
         audioSource = GetComponent<AudioSource>();
-
         // Load the values from PlayerPrefs
         friendly = PlayerPrefs.GetFloat("Friendly");
         sensitive = PlayerPrefs.GetFloat("Sensitiveness");

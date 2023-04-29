@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class InstrumentPickup : MonoBehaviour
 {
-    public InstrumentData instrumentData;
+    public CreateItemAsset itemAsset;
+    public int instrumentDataIndex;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Get instrument");
-            Inventory inventory = other.GetComponent<Inventory>();
-            if (inventory != null)
+            KnapsackCtrl knapsackCtrl = FindObjectOfType<KnapsackCtrl>();
+            InstrumentManager instrumentManager = FindObjectOfType<InstrumentManager>();
+            if (knapsackCtrl != null && instrumentManager != null)
             {
-                inventory.AddInstrument(instrumentData);
-                // Update UI to show the collected instrument.
-                Destroy(gameObject); // Destroy the pickup object
+                InstrumentData instrumentData = itemAsset.InstrumentDataLst[instrumentDataIndex];
+                if (knapsackCtrl.PickUpInstrument(instrumentDataIndex))
+                {
+                    // Find the index of the picked-up instrument in the KnapsackLst
+                    int instrumentIndex = PlayerInfoCtrl.Ins.KnapsackLst.FindIndex(item => item.CurItemData?.Id == instrumentData.Id);
+
+                    // If the instrument is found in the KnapsackLst, switch to it
+                    if (instrumentIndex >= 0)
+                    {
+                        instrumentManager.SwitchToInstrument(instrumentIndex);
+                    }
+                }
             }
         }
     }
 }
-
