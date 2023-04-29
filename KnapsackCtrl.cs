@@ -20,7 +20,7 @@ public class KnapsackCtrl : MonoBehaviour
 
     public void UpdateKnapsackView()
     {
-        KnapsackView.UpdateKnapsackView(PlayerInfoCtrl.Ins.KnapsackLst);//Update after opening the backpack
+        KnapsackView.UpdateKnapsackView(PlayerInfoCtrl.Ins.KnapsackLst); //Update after opening the backpack
     }
     
     //pick up item
@@ -38,48 +38,40 @@ public class KnapsackCtrl : MonoBehaviour
                     if(item.CurItemData!=null)
                         print(item);
                 }
+                UpdateKnapsackView();
+            }
+            else
+                Debug.LogWarning("Store item failed");
+            
+        }
+    }
 
-                if (KnapsackView.gameObject.activeInHierarchy)
+    public bool PickUpInstrument(InstrumentData data)
+    {
+        if (data != null)
+        {
+            if (PlayerInfoCtrl.Ins.StoreItem(data))
+            {
+                Debug.LogWarning("Store item success");
+                foreach (var item in PlayerInfoCtrl.Ins.KnapsackLst)
                 {
-                    UpdateKnapsackView();
+                    if (item.CurItemData != null)
+                        print(item);
                 }
+                //if (KnapsackView.gameObject.activeInHierarchy)
+                //{
+                    UpdateKnapsackView();
+                //}
+                return true; // Return true if the instrument is picked up
             }
             else
             {
                 Debug.LogWarning("Store item failed");
+                return false; // Return false if the instrument is not picked up
             }
         }
+        return false; // Return false if data is null
     }
-
- public bool PickUpInstrument(InstrumentData data)
-{
-    if (data != null)
-    {
-        // Update data
-        if (PlayerInfoCtrl.Ins.StoreItem(data))
-        {
-            Debug.LogWarning("Store item success");
-            foreach (var item in PlayerInfoCtrl.Ins.KnapsackLst)
-            {
-                if (item.CurItemData != null)
-                    print(item);
-            }
-            if (KnapsackView.gameObject.activeInHierarchy)
-            {
-                UpdateKnapsackView();
-            }
-            return true; // Return true if the instrument is picked up
-        }
-        else
-        {
-            Debug.LogWarning("Store item failed");
-            return false; // Return false if the instrument is not picked up
-        }
-    }
-    return false; // Return false if data is null
-}
-
-
 
     public void Dropitem(int Index)
     {
@@ -89,6 +81,4 @@ public class KnapsackCtrl : MonoBehaviour
             UpdateKnapsackView();
         }
     }
-    
-    
 }

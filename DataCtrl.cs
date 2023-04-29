@@ -42,15 +42,13 @@ public class DataCtrl : MonoBehaviour
         }
         return ItemDict[id];
     }
-
-
-public InstrumentData GetInstrumentData(Item item)
-{
-    if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
+    public InstrumentData GetInstrumentData(Item item)
     {
-        return GetItemData(item.CurItemData.Id) as InstrumentData;
+        if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
+        {
+            return GetItemData(item.CurItemData.Id) as InstrumentData;
+        }
+        return null;
     }
-    return null;
-}
     
 }

@@ -22,6 +22,7 @@ public class InstrumentManager : MonoBehaviour
         }
     }
 
+
     private void Start()
     {
         currentInstrumentIndex = 0;
@@ -30,41 +31,39 @@ public class InstrumentManager : MonoBehaviour
 
     public void SelectNextInstrument()
     {
-        currentInstrumentIndex = (currentInstrumentIndex + 1) % PlayerInfoCtrl.Ins.KnapsackLst.Count;
+        int initialIndex = currentInstrumentIndex;
+        do
+        {
+            currentInstrumentIndex = (currentInstrumentIndex + 1) % PlayerInfoCtrl.Ins.KnapsackLst.Count;
+        } while (PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex].CurItemData.Type != ItemType.INSTRUMENT && currentInstrumentIndex != initialIndex);
+
         UpdateInstrument();
     }
 
     public void SelectPreviousInstrument()
     {
-        currentInstrumentIndex = (currentInstrumentIndex - 1 + PlayerInfoCtrl.Ins.KnapsackLst.Count) % PlayerInfoCtrl.Ins.KnapsackLst.Count;
+        int initialIndex = currentInstrumentIndex;
+        do
+        {
+            currentInstrumentIndex = (currentInstrumentIndex - 1 + PlayerInfoCtrl.Ins.KnapsackLst.Count) % PlayerInfoCtrl.Ins.KnapsackLst.Count;
+        } while (PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex].CurItemData.Type != ItemType.INSTRUMENT && currentInstrumentIndex != initialIndex);
+
         UpdateInstrument();
     }
 
     private void UpdateInstrument()
     {
-        Debug.Log("UPdate!");
-        Item item = PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex];
-        if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
+        InstrumentData instrumentData = PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex].CurItemData as InstrumentData;
+        if (instrumentData != null)
         {
-            Debug.Log("UPdate instrument success!");
-            InstrumentData instrumentData = dataCtrl.GetInstrumentData(item);
-            if (instrumentData != null)
-            {
-                instrumentIcon.sprite = instrumentData.instrument.icon;
-                textToMusicNotes.currentInstrumentData = instrumentData;
-            }
+            textToMusicNotes.currentInstrumentData = instrumentData;
+            instrumentIcon.sprite = instrumentData.instrument.icon;
         }
     }
 
     public Instrument GetCurrentInstrument()
     {
-        Item item = PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex];
-        if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
-        {
-           InstrumentData instrumentData = dataCtrl.GetInstrumentData(item);
-
-            return instrumentData?.instrument;
-        }
-        return null;
+        InstrumentData instrumentData = PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex].CurItemData as InstrumentData;//Cannot implicitly convert type 'ItemData' to 'InstrumentData'
+        return instrumentData?.instrument;
     }
 }
