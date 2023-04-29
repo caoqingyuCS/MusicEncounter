@@ -35,6 +35,7 @@ public class PlayerInfoCtrl : MonoBehaviour
    //1.遍历背包
    //2.找相同类物品-> 找到/找不到；找到->capacity满，或者不满； 满->往后继续找相同类物品，直到都返回false
    //3.找空格，有空格放，没空格false
+
    public bool StoreItem(ItemData data)
    {
       if (!FindSameItemToStore(data)) //如果不存在相同的，找空槽

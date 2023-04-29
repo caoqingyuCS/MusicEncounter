@@ -54,6 +54,7 @@ public class KnapsackCtrl : MonoBehaviour
   public bool PickUpInstrument(int id)
 {
     var data = DataCtrl.Ins.GetInstrumentData(id);
+    Debug.Log("Get instrument"+ data);//hey Chat gpt, data is null here
     if (data!= null)
     {
        //todo update data

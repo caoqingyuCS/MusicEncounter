@@ -8,19 +8,16 @@ public class InstrumentManager : MonoBehaviour
     public DataCtrl dataCtrl; // Add this line
     public Image instrumentIcon;
     public TextToMusicNotes textToMusicNotes;
-    private int currentInstrumentIndex;
+    public int currentInstrumentIndex;
 
     public void SwitchToInstrument(int index)
     {
-        Item item = PlayerInfoCtrl.Ins.KnapsackLst[index];
-        if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
+        InstrumentData instrumentData = dataCtrl.GetInstrumentData(PlayerInfoCtrl.Ins.KnapsackLst[index].CurItemData.Id);
+
+        if (instrumentData != null)
         {
-            InstrumentData instrumentData = dataCtrl.GetInstrumentData(item.CurItemData.Id) as InstrumentData;
-            if (instrumentData != null)
-            {
-                textToMusicNotes.currentInstrumentData = instrumentData;
-                // Update the UI to show the selected instrument.
-            }
+            textToMusicNotes.currentInstrumentData = instrumentData;
+            instrumentIcon.sprite = instrumentData.instrument.icon; // Add this line to update the UI
         }
     }
 
@@ -44,9 +41,11 @@ public class InstrumentManager : MonoBehaviour
 
     private void UpdateInstrument()
     {
+        Debug.Log("UPdate!");
         Item item = PlayerInfoCtrl.Ins.KnapsackLst[currentInstrumentIndex];
         if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
         {
+            Debug.Log("UPdate instrument success!");
             InstrumentData instrumentData = dataCtrl.GetInstrumentData(item.CurItemData.Id) as InstrumentData;
             if (instrumentData != null)
             {

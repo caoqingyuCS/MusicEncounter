@@ -44,6 +44,7 @@ public class DataCtrl : MonoBehaviour
     }
     public InstrumentData GetInstrumentData(int id)
     {
+        
         if (ItemDict.ContainsKey(id) && ItemDict[id] is InstrumentData)
         {
             return ItemDict[id] as InstrumentData;
