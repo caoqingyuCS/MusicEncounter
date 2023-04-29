@@ -29,7 +29,7 @@ public class DataCtrl : MonoBehaviour
         // Load instrument data
         foreach (var item in itemAsset.InstrumentDataLst) // Add this loop
         {
-            ItemDict.Add(item.Id, item);
+            ItemDict.Add(item.Id,item);
         }
     }
 
@@ -42,25 +42,15 @@ public class DataCtrl : MonoBehaviour
         }
         return ItemDict[id];
     }
-    public InstrumentData GetInstrumentData(int id)
-    {
-        
-        if (ItemDict.ContainsKey(id) && ItemDict[id] is InstrumentData)
-        {
-            return ItemDict[id] as InstrumentData;
-        }
-        return null;
-    }
 
-/*
-    public InstrumentData GetInstrumentData(Item item)
+
+public InstrumentData GetInstrumentData(Item item)
+{
+    if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
     {
-        if (item != null && item.CurItemData != null && item.CurItemData.Type == ItemType.INSTRUMENT)
-        {
-            return GetItemData(item.CurItemData.Id) as InstrumentData;
-        }
-        return null;
+        return GetItemData(item.CurItemData.Id) as InstrumentData;
     }
-*/
+    return null;
+}
     
 }

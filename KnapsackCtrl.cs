@@ -51,34 +51,35 @@ public class KnapsackCtrl : MonoBehaviour
         }
     }
 
-  public bool PickUpInstrument(int id)
+ public bool PickUpInstrument(InstrumentData data)
 {
-    var data = DataCtrl.Ins.GetInstrumentData(id);
-    Debug.Log("Get instrument"+ data);//hey Chat gpt, data is null here
-    if (data!= null)
+    if (data != null)
     {
-       //todo update data
-        if (PlayerInfoCtrl.Ins.StoreItem(DataCtrl.Ins.GetInstrumentData(id)))
+        // Update data
+        if (PlayerInfoCtrl.Ins.StoreItem(data))
         {
             Debug.LogWarning("Store item success");
             foreach (var item in PlayerInfoCtrl.Ins.KnapsackLst)
             {
-                if(item.CurItemData!=null)
-                print(item);
+                if (item.CurItemData != null)
+                    print(item);
             }
-
             if (KnapsackView.gameObject.activeInHierarchy)
             {
                 UpdateKnapsackView();
             }
+            return true; // Return true if the instrument is picked up
         }
         else
         {
             Debug.LogWarning("Store item failed");
+            return false; // Return false if the instrument is not picked up
         }
     }
-    return false; // Return false if instrumentData is null
+    return false; // Return false if data is null
 }
+
+
 
     public void Dropitem(int Index)
     {
